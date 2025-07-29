@@ -1,4 +1,38 @@
+import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../store/user.store";
+import { useRef, useState, type FormEvent } from "react";
+import { toast } from "react-toastify";
+import { axiosInstance } from "../utils/axios";
+
 export const RegisterPage = () => {
+  const { setUserData } = useUserStore();
+  const navigation = useNavigate();
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    const email = emailInputRef.current.value;
+    const password = passwordInputRef.current.value;
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post("auth/register", {
+        email,
+        password,
+      });
+      if (response.status === 201) {
+        toast.success("success");
+        setUserData(response.data.data);
+        setLoading(false);
+        navigation("/");
+      }
+    } catch (error) {
+      toast.error("xatolik");
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -14,7 +48,7 @@ export const RegisterPage = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm/6 text-gray-900">
                 Email address
@@ -23,6 +57,7 @@ export const RegisterPage = () => {
                 <input
                   id="email"
                   name="email"
+                  ref={emailInputRef}
                   type="email"
                   required
                   autoComplete="email"
@@ -43,6 +78,7 @@ export const RegisterPage = () => {
               <div className="mt-2">
                 <input
                   id="password"
+                  ref={passwordInputRef}
                   name="password"
                   type="password"
                   required
