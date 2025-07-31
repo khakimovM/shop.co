@@ -1,8 +1,26 @@
+@import url("https://fonts.cdnfonts.com/css/integral-cf");
+
 @import "tailwindcss";
 
 body {
   font-family: INTEGRAL CF;
   font-weight: 400;
+}
+
+.card-hero {
+  font-family: none;
+}
+
+.rev {
+  font-family: none;
+}
+
+.info-t {
+  font-family: none;
+}
+
+.fott {
+  font-family: none;
 }
 
 @font-face {

@@ -4,6 +4,7 @@ import HomePage from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 import { RegisterPage } from "../pages/RegisterPage";
 import AppWrapperLayout from "../layouts/AppWrapperLayout";
+import CardInfoPage from "../pages/CardInfoPage";
 
 export const routes = createBrowserRouter([
   {
@@ -27,6 +28,16 @@ export const routes = createBrowserRouter([
       {
         path: "/signup",
         element: <RegisterPage />,
+      },
+      {
+        path: "/card-info",
+        element: <RootLayout />,
+        children: [
+          {
+            index: true,
+            element: <CardInfoPage />,
+          },
+        ],
       },
     ],
   },
